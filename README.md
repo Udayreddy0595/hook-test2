@@ -5,7 +5,7 @@ Git commands:
 1.How do you set up a script to run every time a repository receives new commits through push?
 Ans:
 
-
+```
 $ mkdir hook-test2
 $ cd hook-test2/
 $ git init
@@ -18,16 +18,18 @@ $ vi post-commit
 #/bin/bash
 echo "this script can be run after commit"
 $ chmod +x post-commit
-$  cd ../../
+```
+
 After you done with this successfully you will be able to see the script gets executed each time you do run push command.
-=======================================================================================================================================================
 
 2. How do you find a list of files that have changed in a particular commit?
 
 Ans:
 We can use is git diff command to check the list of files
 Syntax of this command is:
+```
 git diff-tree --no-commit-id --name-only -r <commit_SHA>
+```
 =======================================================================================================================================================
 Monitoring using scripts:
 
@@ -35,13 +37,13 @@ Monitoring using scripts:
 
 Ans:
 these examples we'll place it into the /opt/logalert directory. Make sure you are root (superuser) to install this
-
+```
 mkdir /opt/logalert
 curl -L https://github.com/jhuckaby/logalert/releases/latest/download/logalert-linux > /opt/logalert/logalert.bin
 chmod 755 /opt/logalert/logalert.bin
 /opt/logalert/logalert.bin
 
-
+```
 Alternatively, if you already have Node.js on your server, you can install LogAlert via npm like this:
 
 sudo npm install -g logalert
@@ -53,7 +55,7 @@ And start it as a background daemon:
 sudo logalert start
 
 LogAlert is configured via a JSON text file named config.json
-
+```
 
 example file:
 
@@ -80,7 +82,7 @@ example file:
 	"echo": true,
 	"verbose": 3
 }
-
+```
 Note that many SMTP servers require authentication.
 This is done by specifying an auth object. Here is an example using my local ISP's mail server.
 They listen on a different port (587), and require user authentication for mail relay:
@@ -98,7 +100,7 @@ For monitoring multiple files at once, you can use a filesystem glob. This is a 
 2. Monitor process particular process on an instance, send an email on incase of state change like process got stopped, taking more CPU that threshold
 
 Ans:
-
+```
 $ vi /opt/scripts/cpu-alert.sh
 
 #!/bin/bash
@@ -123,7 +125,7 @@ TO="avavmo@gmail.com"
 else
 echo "Server CPU usage is in under threshold"
   fi
-
+```
 I dont have smtp server setup that could be the reason not able to execute above code
 ============================================================================================================================================================================
 Security:
@@ -131,10 +133,13 @@ Security:
 1. Show how to block ports in linux
 
 Ans:
+```
 sudo iptables -A INPUT -p tcp --dport 8000 -j DROP
+```
 =============================================================================================================================================================================
 2. show how to setup port forwarding in linux
 Ans:
+				     ```
  local port farwarding:
  ssh -L local_port:destination_server_ip:remote_port ssh_server_hostname
  ssh –L 5901:188.17.0.5:4492 ubuntu@<hostname>
@@ -142,26 +147,32 @@ Ans:
  remote port forwarding:
  ssh -R remote_port:localhost:local_port ssh_server_hostname
  ssh –R 8080:localhost:5534 ubuntu@<hostname>
+	```
 
 =============================================================================================================================================================================
 Network:
 
 1. Show list of processes using the network
-
+```
 Ans:
 sudo netstat -tunpl 
 sudo netstat -tunp | grep 433
+```
 ================================================================================================================================================================
 2. Show the list of IPs a process is connected to 
 
 Ans:
+```
 netstat -tn 2>/dev/null  | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
 netstat -tn 2>/dev/null | grep :22 | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
+```
 ===================================================================================================================================================================
 3.Show how to list open files and kill processes tied to a user
  
 Ans:
+```
  kill -9 $(lsof -t -u uday)
+```
 ===================================================================================================================================================================
 Code:
 Write a short program that prints each number from 1 to 100 on a new line.
@@ -171,7 +182,7 @@ For numbers which are multiples of both 3 and 5, print "AVAAMO" instead of the n
 
 Ans:
 Shell Script:
-
+```
 #!/bin/bash
 for ((i=1;i<=100;i++)); do
     if ! ((i%15)); then
@@ -211,6 +222,7 @@ def findMultiples(n):
 # Driver Code
 if __name__ == '__main__':
         findMultiples(100)
+```
 ================================================================================================================================================================================		
 Docker:
 1. Create a sample docker container with a Node.js Express app and demonstrate the installation.
@@ -222,7 +234,7 @@ Guidelines :
 ● The app should maximize all of the available CPUs
 ● Timezone should be in IST
 ● Follow best practices when writing a dockerfile
-
+```
 Dockerfile:
 
 FROM node:16-alpine
@@ -246,18 +258,19 @@ COPY . .
 EXPOSE 8080
 USER node
 CMD [ "node", "server.js" ]
-
+```
 ===================================================================================================================
-.dockerignore
+```
+ .dockerignore
 
 node_modules
 npm-debug.log
 
-
+```
 
 ===========================================================================================
 package.json
-
+```
 
 {
   "name": "docker_node_app",
@@ -272,8 +285,9 @@ package.json
     "express": "^4.16.1"
   }
 }
-
+```
 =============================================================================================================
+```
 server.js
 
 'use strict';
@@ -292,7 +306,7 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
-
+```
 
 sudo docker build -t nodeapp:v1 .
 
